@@ -1,61 +1,72 @@
 package com.raifmirza.passwordapp.entity;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="userid")
-    private int id;
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name="username")
-    private String username;
+    @Column(name = "username")
+    private String userName;
 
-    @Column(name="email")
-    private String email;
-
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="userid")
-    List<Passwords> passwordsList;
+    @Column(name = "enabled")
+    private boolean enabled;
 
-    public User(){}
+    @Column(name = "first_name")
+    private String firstName;
 
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
+
+    public User() {
     }
 
-    public int getId() {
+    public User(String userName, String password, boolean enabled) {
+        this.userName = userName;
+        this.password = password;
+        this.enabled = enabled;
+    }
+
+    public User(String userName, String password, boolean enabled,
+                Collection<Role> roles) {
+        this.userName = userName;
+        this.password = password;
+        this.enabled = enabled;
+        this.roles = roles;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -66,31 +77,56 @@ public class User {
         this.password = password;
     }
 
-    public List<Passwords> getPasswordsList() {
-        return passwordsList;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setPasswordsList(List<Passwords> passwordsList) {
-        this.passwordsList = passwordsList;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public void addPasswords(Passwords password){
-        if(passwordsList == null){
-            passwordsList = new ArrayList<>();
-        }
-        passwordsList.add(password);
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void deletePasswords(Passwords passwords){
-        passwordsList.remove(passwords);
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", userName='" + userName + '\'' +
+                ", enabled=" + enabled +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }

@@ -11,7 +11,7 @@ public class Passwords {
     @Column(name="id")
     private int id;
 
-    @Column(name="passwordName")
+    @Column(name="passwordname")
     private String passwordName;
 
     @Column(name="passwordhash")
