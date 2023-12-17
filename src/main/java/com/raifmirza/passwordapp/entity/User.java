@@ -2,6 +2,7 @@ package com.raifmirza.passwordapp.entity;
 
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -9,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "userid")
     private Long id;
 
     @Column(name = "username")
@@ -35,6 +36,9 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+    @OneToMany(mappedBy = "user")
+    private List<Passwords> passwordsList;
 
     public User() {
     }

@@ -8,7 +8,7 @@ public class Passwords {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="passwordid")
     private int id;
 
     @Column(name="passwordname")
@@ -17,8 +17,12 @@ public class Passwords {
     @Column(name="passwordhash")
     private String hashedPassword;
 
-    @Column(name="userid")
+    @Column
     private int userId;
+
+    @ManyToOne
+    @JoinColumn(name="userId",referencedColumnName = "userid",insertable = false,updatable = false)
+    private User user;
 
     public Passwords(){}
 
@@ -58,6 +62,14 @@ public class Passwords {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

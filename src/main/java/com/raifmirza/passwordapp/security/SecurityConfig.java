@@ -30,6 +30,8 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(configurer -> configurer
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/login").authenticated()
+                        .requestMatchers("/users").hasRole("EMPLOYEE")
+//                        .requestMatchers("/users/**").hasAnyRole("MANAGER","ADMIN")
                         .anyRequest().permitAll())
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())

@@ -9,5 +9,7 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     public User findByUserName(String username);
     void save(WebUser webUser);
+    void delete(int id);
     public List<User> findUsers();
+    public User findUserById(int id);
 }

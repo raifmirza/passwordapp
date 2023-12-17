@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +30,15 @@ public class LoginController {
     public ResponseEntity<List<User>> users(){
         List<User> users= userService.findUsers();
         return new ResponseEntity<>(users,HttpStatus.OK);
+    }
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id){
+        userService.delete(id);
+    }
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> user(@PathVariable int id) {
+        User user = userService.findUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
     @PostMapping("/register")
     public ResponseEntity<WebUser> register(@Valid @RequestBody WebUser webUser, HttpSession httpSession){
